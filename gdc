@@ -1,0 +1,11 @@
+for i in `scevtls -d mysql://seismics:seismics@localhost/seiscomp3 --begin "2014-08-01 00:00:00" --end "2015-12-31 23:59:00"`
+do echo $i
+done
+
+for i in `scevtls -d mysql://seismics:seismics@localhost/seiscomp3 --begin "2016-12-01 00:00:00" --end "2016-12-31 23:59:00"`
+do scbulletin -d mysql://seismics:seismics@localhost/seiscomp3 -E $i -3 >>Dec2016
+done
+
+for i in `scevtls -d mysql://seismics:seismics@localhost/seiscomp3 --begin "2012-01-01 00:00:00" --end "2021-02-05 23:59:00"`
+do /usr/bin/python /home/seismics/seiscomp3/bin/eq-mon.py -d mysql://seismics:seismics@localhost/seiscomp3 -E $i -3 >>all-events.tsv
+done 

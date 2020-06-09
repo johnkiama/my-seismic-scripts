@@ -1,0 +1,62 @@
+#!/bin/bash
+
+#To run the program run code $1 $2
+# eg script_name 2020001 2020029
+#Script by John Kiama
+
+rm logfile.txt
+
+start=$1
+end=$2
+
+function usage(){
+   echo "$( basename $0 ) [start_julianday] [end_julianday] )"
+   exit 0
+}
+
+if [ "$#" -lt 2 ]; then
+  usage
+else
+  function main(){
+
+    arr_station=("KORS" "KORC" "PCR" "PWE" "AKWI" "KAPD" "KLAM" "KLOM" "KORW" "NASOA" "NASOB" "NATNA" "PCH" "PKAT" "PKCH" "SILC" "SILD")
+
+    arr_channel=("HHZ" "HHN" "HHE")
+
+    for ch in {0..2}
+      do
+        channel=${arr_channel[ch]}
+
+        for st in {0..16} 
+          do
+            station=${arr_station[st]}
+
+            indir="/home/seismics/seiscomp3/var/lib/archive/"$1"/PS/"$station/$channel.D/PS.$station.00.$channel.D.$1.$2
+            outdir="/home/seismics/Documents/archive/"$1"/PS/"$station/$channel.D
+
+            if [ -f $indir ]; then
+#            echo $outdir   #change to mkdir
+              mkdir -p $outdir
+#            echo $indir
+              cp -r $indir $outdir
+              echo $indir "$(tput setaf 1)--->$(tput sgr 0)" $outdir
+            else
+              echo "$(tput setaf 1)Unavailabe: $(tput sgr 0)" $indir >> logfile.txt
+            fi     
+        done
+    done
+    }
+
+  function timer(){
+    for ((t=start; t<=end; t++))
+      do
+        year=`cut -b -4 <<< $t`
+        day=`cut -b 5-7 <<< $t`
+        main $year $day 
+      
+    done
+  }
+  timer
+fi
+_scriptConfigs=$(readlink -f logfile.txt)
+echo "$(tput setaf 1)CHECK $_scriptConfigs FOR INFO OF SKIPPED FILES$(tput sgr 0)"
