@@ -1,0 +1,19 @@
+#!/bin/bash 
+
+############################################################
+#./copyEvents 202006 PAKOR 202006_events.csv 2020-Earthquakes
+############################################################
+
+echo $1  #duration
+echo $2  #database name
+echo $3  #file name in csv
+echo $4  #output name
+
+rm $4.csv
+
+echo Lat Lon Depth Mag  >> ~/seismo/WOR/$4.csv
+
+sed -i 's/LGDC/0/g' ~/Videos/$3
+
+eev $1 $2 |awk '{print $9 " " $10 " " $11 " " $13}' ~/Videos/$3 >> ~/seismo/WOR/$4.csv
+
