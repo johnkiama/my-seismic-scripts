@@ -1,0 +1,33 @@
+#!/bin/bash
+
+#Script to back up files and directories for one location to another
+#Original disk and backup disk
+
+#PAKA_SILABKUP
+dir1=$1
+
+#SEISMICS_BACKUP
+dir2=$2
+
+function usage(){
+  echo "$(basename $0) [directory_1] [directory_2]"
+  exit 0
+}
+if [ "$#" -lt 2 ]; then 
+  usage
+else
+
+echo "Compairing and copying files.This may take a while.................."
+
+#media1=/media/seismics/Transcend
+#media2=/media/seismics/Transcend
+
+#rsync -a $media1/$dir1/ $media2/$dir2/
+
+#rsync -a $media2/$dir2/ $media1/$dir2/
+
+rsync -av ~/$dir1/ ~/$dir2/
+
+rsync -av ~/$dir2/ ~/$dir1/
+
+fi
