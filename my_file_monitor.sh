@@ -1,4 +1,7 @@
 #!/bin/bash
+#script that identifies if changes have been done to a
+#file and logs to the log-user-changes.txt file
+
 modification_year=`date -r user-file |awk '{print $6}'`
 modification_time=`date -r user-file |awk '{print $4}'`
 
